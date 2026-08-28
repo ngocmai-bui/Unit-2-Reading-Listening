@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Unit 2 · Reading & Listening Practice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F3F6F3;
+    --card:#FFFFFF;
+    --ink:#152A3F;
+    --ink-soft:#4C6072;
+    --line:#DAE2DC;
+    --gold:#B8862E;
+    --gold-soft:#F1E6CC;
+    --navy:#16324F;
+    --navy-deep:#0E2238;
+    --correct:#2F7A4F;
+    --correct-bg:#E6F4EA;
+    --incorrect:#B3423A;
+    --incorrect-bg:#FBEAE8;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .page{max-width:720px;margin:0 auto;padding:0 18px 80px;}
+  h1,h2,h3{font-family:'Lora',serif;color:var(--navy-deep);margin:0;}
+  .hero{padding:38px 4px 22px;}
+  .eyebrow{
+    display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:12px;
+    letter-spacing:.12em;color:var(--gold);background:var(--gold-soft);
+    padding:4px 10px;border-radius:999px;margin-bottom:14px;font-weight:600;
+  }
+  .hero h1{font-size:28px;font-weight:700;line-height:1.25;}
+  .hero .sub{color:var(--ink-soft);margin-top:6px;font-size:15px;}
+
+  .sticky-bar{
+    position:sticky;top:0;z-index:20;background:rgba(243,246,243,.92);
+    backdrop-filter:blur(6px);border-bottom:1px solid var(--line);
+    padding:12px 4px;margin:0 -18px 26px;padding-left:18px;padding-right:18px;
+  }
+  .name-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+  .name-row label{font-size:12.5px;color:var(--ink-soft);font-weight:600;letter-spacing:.02em;}
+  .name-row input[type="text"]{
+    flex:1;min-width:170px;border:1.5px solid var(--line);border-radius:10px;
+    padding:9px 12px;font-size:15px;font-family:'Inter',sans-serif;background:#fff;color:var(--ink);
+  }
+  .name-row input[type="text"]:focus{outline:2px solid var(--navy);outline-offset:1px;border-color:var(--navy);}
+  .actions-row{display:flex;gap:10px;align-items:center;margin-top:10px;flex-wrap:wrap;}
+  .btn{
+    border:none;border-radius:10px;padding:10px 16px;font-family:'Inter',sans-serif;
+    font-weight:600;font-size:14.5px;cursor:pointer;transition:transform .08s ease, opacity .15s ease;
+  }
+  .btn:active{transform:scale(.97);}
+  .btn-primary{background:var(--navy);color:#fff;}
+  .btn-primary:hover{background:var(--navy-deep);}
+  .btn-ghost{background:var(--gold-soft);color:#7A5A19;}
+  .btn-ghost:hover{background:#e9d9ab;}
+  .btn:disabled{opacity:.45;cursor:not-allowed;}
+  .score-badge{
+    font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--navy-deep);
+    background:#fff;border:1px solid var(--line);padding:6px 12px;border-radius:999px;
+  }
+  .hint{font-size:12.5px;color:var(--ink-soft);margin-top:4px;}
+
+  .toast{
+    position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(20px);
+    background:var(--navy-deep);color:#fff;padding:11px 18px;border-radius:10px;
+    font-size:14px;opacity:0;pointer-events:none;transition:all .25s ease;z-index:50;
+    max-width:88%;text-align:center;
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  .block{margin-bottom:34px;}
+  .block-head{display:flex;align-items:baseline;gap:10px;margin-bottom:14px;flex-wrap:wrap;}
+  .tag{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;
+    color:var(--navy);background:#e7edf2;padding:3px 8px;border-radius:6px;font-weight:600;
+  }
+  .block-head h2{font-size:20px;}
+
+  .track-tag{
+    display:inline-flex;align-items:center;gap:7px;font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px;background:var(--navy-deep);color:#fff;padding:6px 12px;border-radius:999px;
+    margin-bottom:16px;letter-spacing:.03em;
+  }
+  .track-tag .dot{width:6px;height:6px;border-radius:50%;background:#F0C542;}
+
+  .passage{
+    background:var(--card);border:1px solid var(--line);border-left:4px solid var(--gold);
+    border-radius:var(--radius);padding:18px 20px;margin-bottom:16px;
+  }
+  .passage p{margin:0 0 12px;font-size:15px;color:#2B3B48;}
+  .passage p:last-child{margin-bottom:0;}
+  .passage .ptitle{font-family:'Lora',serif;font-weight:600;font-style:italic;color:var(--ink-soft);font-size:13.5px;margin-bottom:10px;}
+
+  .wordbank{
+    background:var(--gold-soft);border-radius:10px;padding:12px 16px;margin-bottom:18px;
+    font-size:14px;
+  }
+  .wb-label{display:block;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:#7A5A19;font-weight:700;margin-bottom:8px;}
+  .wb-chips{display:flex;flex-wrap:wrap;gap:8px;}
+  .wb-chips span{background:#fff;border:1px solid #E4D3A6;padding:4px 10px;border-radius:999px;font-size:13px;color:#6B4E13;}
+
+  .timeline{position:relative;padding-left:26px;}
+  .timeline::before{
+    content:"";position:absolute;left:9px;top:6px;bottom:6px;width:2px;background:var(--line);
+  }
+  .step{position:relative;padding-bottom:20px;}
+  .step:last-child{padding-bottom:0;}
+  .node{
+    position:absolute;left:-26px;top:0;width:20px;height:20px;border-radius:50%;
+    background:var(--navy);color:#fff;font-family:'IBM Plex Mono',monospace;font-size:11px;
+    font-weight:700;display:flex;align-items:center;justify-content:center;
+  }
+  .step-body{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:14.5px;}
+  .step-body p{margin:0;}
+
+  .q{position:relative;display:inline-flex;align-items:center;gap:6px;vertical-align:middle;}
+  .q input[type="text"], .q select{
+    border:1.5px solid var(--line);border-radius:8px;padding:6px 9px;font-size:14.5px;
+    font-family:'Inter',sans-serif;background:#fbfbf9;color:var(--ink);min-width:130px;
+  }
+  .q input[type="text"]:focus, .q select:focus{outline:2px solid var(--navy);outline-offset:1px;border-color:var(--navy);}
+  .q .icon{font-weight:800;font-size:15px;width:16px;display:inline-block;text-align:center;}
+  .q.ok input, .q.ok select{border-color:var(--correct);background:var(--correct-bg);}
+  .q.ok .icon{color:var(--correct);}
+  .q.bad input, .q.bad select{border-color:var(--incorrect);background:var(--incorrect-bg);}
+  .q.bad .icon{color:var(--incorrect);}
+
+  .mc{display:flex;flex-direction:column;gap:8px;margin:10px 0 18px;}
+  .mc label{
+    display:flex;gap:10px;align-items:flex-start;background:var(--card);border:1.5px solid var(--line);
+    border-radius:10px;padding:10px 12px;font-size:14.5px;cursor:pointer;
+  }
+  .mc label input{margin-top:3px;}
+  .mc-wrap.ok label.checked{border-color:var(--correct);background:var(--correct-bg);}
+  .mc-wrap.bad label.checked{border-color:var(--incorrect);background:var(--incorrect-bg);}
+  .mc-wrap .icon-row{margin-top:4px;font-weight:700;font-size:13.5px;}
+  .mc-wrap.ok .icon-row{color:var(--correct);}
+  .mc-wrap.bad .icon-row{color:var(--incorrect);}
+
+  .sa-list{display:flex;flex-direction:column;gap:12px;margin-bottom:6px;}
+  .sa-item{display:flex;flex-direction:column;gap:6px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;}
+  .sa-item .qtext{font-size:14.5px;color:#2B3B48;}
+  .sa-item .qnum{font-family:'IBM Plex Mono',monospace;color:var(--navy);font-weight:700;margin-right:6px;}
+
+  .tfng-list{display:flex;flex-direction:column;gap:10px;}
+  .tfng-item{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px 14px;flex-wrap:wrap;}
+  .tfng-item .qtext{font-size:14.5px;flex:1;min-width:180px;}
+
+  .open-box{background:var(--card);border:1px dashed var(--line);border-radius:12px;padding:12px 14px;margin-bottom:12px;}
+  .open-box label{display:block;font-size:13.5px;color:var(--ink-soft);margin-bottom:6px;font-weight:600;}
+  .open-box textarea{
+    width:100%;border:1.5px solid var(--line);border-radius:8px;padding:8px 10px;font-family:'Inter',sans-serif;
+    font-size:14px;min-height:52px;resize:vertical;color:var(--ink);
+  }
+  .note-tag{font-size:12px;color:var(--ink-soft);font-style:italic;margin-top:2px;}
+
+  .note-grid{display:flex;flex-direction:column;gap:10px;}
+  .note-line{
+    display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:var(--card);
+    border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:14.5px;
+  }
+  .note-line .qnum{font-family:'IBM Plex Mono',monospace;color:var(--navy);font-weight:700;min-width:18px;}
+  .note-line input[type="text"]{border:1.5px solid var(--line);border-radius:8px;padding:6px 9px;font-size:14.5px;font-family:'Inter',sans-serif;background:#fbfbf9;min-width:120px;flex:1;}
+  .note-line .given{color:var(--ink-soft);}
+
+  .match-grid{display:grid;grid-template-columns:1fr;gap:8px;}
+  .match-line{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px 12px;font-size:14.5px;flex-wrap:wrap;}
+  .match-line .letter{font-family:'IBM Plex Mono',monospace;font-weight:700;color:var(--navy);width:20px;}
+  .match-line select{border:1.5px solid var(--line);border-radius:8px;padding:6px 9px;font-size:14px;background:#fbfbf9;}
+  .example-line{opacity:.65;font-style:italic;}
+
+  .not-graded-note{
+    background:#EFF3EE;border-left:4px solid var(--ink-soft);border-radius:8px;
+    padding:9px 13px;font-size:13px;color:var(--ink-soft);margin-bottom:14px;
+  }
+
+  footer{text-align:center;color:var(--ink-soft);font-size:12.5px;padding:20px 4px 4px;}
+
+  @media (max-width:420px){
+    .hero h1{font-size:23px;}
+    .q input[type="text"], .q select{min-width:100px;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important;}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="hero">
+    <span class="eyebrow">UNIT 2 · PEOPLE'S LIVES</span>
+    <h1>Reading &amp; Listening Practice</h1>
+    <p class="sub">Patrick Malone · Sylvia Earle · Magazine Interview</p>
+  </div>
+
+  <div class="sticky-bar">
+    <div class="name-row">
+      <label for="studentName">Họ và tên</label>
+      <input type="text" id="studentName" placeholder="Nhập họ và tên của em" autocomplete="off" />
+    </div>
+    <div class="actions-row">
+      <button class="btn btn-primary" id="submitBtn">Nộp bài</button>
+      <button class="btn btn-ghost" id="copyBtn" disabled>Sao chép đáp án</button>
+      <span class="score-badge" id="scoreBadge">Điểm Reading: — / 22</span>
+    </div>
+    <div class="hint">Bấm <b>Nộp bài</b> để xem đúng/sai từng câu, sau đó bấm <b>Sao chép đáp án</b> để dán vào tin nhắn nộp cho giáo viên.</div>
+  </div>
+
+  <!-- READING 1 PART 1 -->
+  <section class="block" id="sec-r1p1">
+    <div class="block-head">
+      <span class="tag">READING 1</span>
+      <h2>Patrick Malone (Part 1)</h2>
+    </div>
+    <article class="passage">
+      <p>Patrick Malone is a traveller, writer and broadcaster. He was born in 1968 in Basel, Switzerland, where his British parents were working for a pharmaceutical company. His family left Switzerland when he was twelve, and returned to their home in Britain. For the next six years, Malone attended the local secondary school. He then went to Leeds University to do a course in Human Geography. He wanted to become a town planner. However, the only work he could find was as a teacher at a local school.</p>
+      <p>During his holidays and free time, he went walking, often covering very long distances very quickly. On one occasion he walked the entire length of Britain, a distance of over 1,400 kilometres, in less than a month. He enjoyed the experience and the challenge so much that he started walking in different parts of the world, usually in fairly remote areas away from major population centres. The people he met and the experiences he had on these trips provided him with some excellent material for his classes.</p>
+      <p>It was during one trip that he met his old university tutor, Don Perkins. At the time, Perkins was putting together a team of geographers and biologists for a research trip to the Amazon, and asked Malone if he would like to go with them. The expedition was for a whole year, and so he had to give up his job at the school, but Malone did not hesitate to accept Perkins' offer. He sold his car to make some money, bought an airline ticket for Brazil and set off.</p>
+    </article>
+
+    <div class="wordbank">
+      <span class="wb-label">Ngân hàng từ</span>
+      <div class="wb-chips">
+        <span>Britain</span><span>expedition</span><span>Human Geography</span><span>1,400 kilometres</span><span>remote</span><span>teacher</span>
+      </div>
+    </div>
+
+    <div class="timeline">
+      <div class="step"><div class="node">•</div><div class="step-body"><p>Born in Switzerland in 1968.</p></div></div>
+      <div class="step"><div class="node">1</div><div class="step-body"><p>Moved to <span class="q" data-q="r1p1_1"><input type="text" id="r1p1_1" class="ans" autocomplete="off" /><span class="icon"></span></span> when he was twelve.</p></div></div>
+      <div class="step"><div class="node">2</div><div class="step-body"><p>Studied <span class="q" data-q="r1p1_2"><input type="text" id="r1p1_2" class="ans" autocomplete="off" /><span class="icon"></span></span> at university.</p></div></div>
+      <div class="step"><div class="node">3</div><div class="step-body"><p>Got a job as a <span class="q" data-q="r1p1_3"><input type="text" id="r1p1_3" class="ans" autocomplete="off" /><span class="icon"></span></span>.</p></div></div>
+      <div class="step"><div class="node">4</div><div class="step-body"><p>Once travelled more than <span class="q" data-q="r1p1_4"><input type="text" id="r1p1_4" class="ans" autocomplete="off" /><span class="icon"></span></span> on foot on a single trip.</p></div></div>
+      <div class="step"><div class="node">5</div><div class="step-body"><p>Often went walking in places that were quite <span class="q" data-q="r1p1_5"><input type="text" id="r1p1_5" class="ans" autocomplete="off" /><span class="icon"></span></span>.</p></div></div>
+      <div class="step"><div class="node">6</div><div class="step-body"><p>Joined an <span class="q" data-q="r1p1_6"><input type="text" id="r1p1_6" class="ans" autocomplete="off" /><span class="icon"></span></span> to the Amazon.</p></div></div>
+    </div>
+  </section>
+
+  <!-- READING 1 PART 2 -->
+  <section class="block" id="sec-r1p2">
+    <div class="block-head">
+      <span class="tag">READING 1</span>
+      <h2>Patrick Malone (Part 2)</h2>
+    </div>
+    <article class="passage">
+      <p>The Amazon expedition, which took six months and covered a distance of almost 2,500 kilometres, was a great success. The group discovered some new plant and insect species, as well as a forest tribe which people had never heard of. Malone enjoyed the trip so much that he decided to become a full-time explorer. He earned money by writing travel articles for magazines and newspapers, which he illustrated with his own photographs.</p>
+      <p>In 1996, he married Margaret Logan, an American doctor he had met while travelling around Africa. In 1998 they had Adam, the first of three children (twins Amelia and Jennifer were born a year later). Many families at this stage would settle down, but Margaret and Patrick decided to keep travelling, spending two years walking around India and another twelve months exploring the islands of Indonesia.</p>
+      <p>When they returned home, they wrote a magazine article about travelling with small children. It was so popular that they were asked to write several more articles on the same subject. This was followed by an offer from a television company to present a TV series about travelling with children. The series ran for 12 years, and won several television awards. Today they still make the most of every opportunity to travel, and have recently returned from the South Pacific.</p>
+    </article>
+
+    <div class="timeline">
+      <div class="step"><div class="node">•</div><div class="step-body"><p>Travelled 2,500 kilometres through the Amazon.</p></div></div>
+      <div class="step"><div class="node">7</div><div class="step-body"><p><span class="q" data-q="r1p2_7"><input type="text" id="r1p2_7" class="ans" autocomplete="off" /><span class="icon"></span></span> a tribe that nobody knew existed.</p></div></div>
+      <div class="step"><div class="node">8</div><div class="step-body"><p><span class="q" data-q="r1p2_8"><input type="text" id="r1p2_8" class="ans" autocomplete="off" /><span class="icon"></span></span> someone he met on a trip.</p></div></div>
+      <div class="step"><div class="node">9</div><div class="step-body"><p>They had <span class="q" data-q="r1p2_9"><input type="text" id="r1p2_9" class="ans" autocomplete="off" /><span class="icon"></span></span>: Adam, Amelia and Jennifer.</p></div></div>
+      <div class="step"><div class="node">10</div><div class="step-body"><p>Explored the Indonesian islands for <span class="q" data-q="r1p2_10"><input type="text" id="r1p2_10" class="ans" autocomplete="off" /><span class="icon"></span></span>.</p></div></div>
+      <div class="step"><div class="node">11</div><div class="step-body"><p>Made a successful <span class="q" data-q="r1p2_11"><input type="text" id="r1p2_11" class="ans" autocomplete="off" /><span class="icon"></span></span>.</p></div></div>
+      <div class="step"><div class="node">12</div><div class="step-body"><p>Still likes to <span class="q" data-q="r1p2_12"><input type="text" id="r1p2_12" class="ans" autocomplete="off" /><span class="icon"></span></span> whenever possible.</p></div></div>
+    </div>
+  </section>
+
+  <!-- READING 2 -->
+  <section class="block" id="sec-r2">
+    <div class="block-head">
+      <span class="tag">READING 2</span>
+      <h2>Sylvia Earle, underwater hero</h2>
+    </div>
+
+    <div class="open-box">
+      <label>Quan sát hình người thợ lặn — bạn nghĩ người này làm nghề gì? Công việc này có những nguy hiểm gì? (câu hỏi mở, không chấm điểm)</label>
+      <textarea id="r2_pic_1" placeholder="Câu trả lời của em..."></textarea>
+    </div>
+
+    <p style="font-size:14.5px;color:var(--ink-soft);margin:4px 2px 8px;">Trước khi đọc: bài đọc này nói về điều gì?</p>
+    <div class="mc-wrap" data-q="r2_predict">
+      <div class="mc">
+        <label><input type="radio" name="r2_predict" value="a" /> a. a woman who has an interesting hobby</label>
+        <label><input type="radio" name="r2_predict" value="b" /> b. a scientist who wants to know more about the sea</label>
+        <label><input type="radio" name="r2_predict" value="c" /> c. a student who wants to become an underwater explorer</label>
+      </div>
+      <div class="icon-row"></div>
+    </div>
+
+    <article class="passage">
+      <p class="ptitle">She has spent her working life studying the world's oceans</p>
+      <p>Sylvia Earle is an underwater explorer and marine biologist who was born in the USA in 1935. She became interested in the world's oceans from an early age. As a child, she liked to stand on the beach for hours and look at the sea, wondering what it must be like under the surface.</p>
+      <p>When she was 16, she finally got a chance to make her first dive. It was this dive that inspired her to become an underwater explorer. Since then, she has spent more than 6,500 hours under water, and has led more than seventy expeditions worldwide. She has also made the deepest dive ever, reaching a record-breaking depth of 381 metres.</p>
+      <p>In 1970, she became famous around the world when she became the captain of the first all-female team to live under water. The team spent two weeks in an underwater 'house'. The research they carried out showed the damage that pollution was causing to marine life, and especially to coral reefs. Her team also studied the problem of over-fishing. Fishing methods meant that people were catching too many fish, Earle warned, and many species were in danger of becoming extinct.</p>
+      <p>Since then she has written several books and magazine articles in which she suggests ways of reducing the damage that is being done to the world's oceans. One way, she believes, is to rely on fish farms for seafood, and reduce the amount of fishing that is done out at sea. Although she no longer eats seafood herself, she realises the importance it plays in our diets. It would be wrong to tell people they should stop eating fish from the sea, she says. However, they need to reduce the impact they are having on the ocean's supplies.</p>
+    </article>
+
+    <h3 style="font-size:16px;margin-bottom:10px;">Trả lời ngắn</h3>
+    <div class="sa-list">
+      <div class="sa-item">
+        <span class="qtext"><span class="qnum">1.</span>What career did Sylvia decide to follow after her first dive?</span>
+        <span class="q" data-q="r2_sa_1"><input type="text" id="r2_sa_1" class="ans" autocomplete="off" /><span class="icon"></span></span>
+      </div>
+      <div class="sa-item">
+        <span class="qtext"><span class="qnum">2.</span>How far under water did she go in order to break a world record?</span>
+        <span class="q" data-q="r2_sa_2"><input type="text" id="r2_sa_2" class="ans" autocomplete="off" /><span class="icon"></span></span>
+      </div>
+      <div class="sa-item">
+        <span class="qtext"><span class="qnum">3.</span>What was causing harm to everything living in the sea?</span>
+        <span class="q" data-q="r2_sa_3"><input type="text" id="r2_sa_3" class="ans" autocomplete="off" /><span class="icon"></span></span>
+      </div>
+      <div class="sa-item">
+        <span class="qtext"><span class="qnum">4.</span>Where does Sylvia think we should get our fish from?</span>
+        <span class="q" data-q="r2_sa_4"><input type="text" id="r2_sa_4" class="ans" autocomplete="off" /><span class="icon"></span></span>
+      </div>
+    </div>
+
+    <h3 style="font-size:16px;margin:18px 0 10px;">True / False / Not Given</h3>
+    <div class="tfng-list">
+      <div class="tfng-item"><span class="qtext">1. Sylvia Earle lives in the USA.</span>
+        <span class="q" data-q="r2_tfng_1"><select id="r2_tfng_1"><option value="">Chọn...</option><option value="true">TRUE</option><option value="false">FALSE</option><option value="not given">NOT GIVEN</option></select><span class="icon"></span></span>
+      </div>
+      <div class="tfng-item"><span class="qtext">2. Until 1970, nobody had lived underwater before.</span>
+        <span class="q" data-q="r2_tfng_2"><select id="r2_tfng_2"><option value="">Chọn...</option><option value="true">TRUE</option><option value="false">FALSE</option><option value="not given">NOT GIVEN</option></select><span class="icon"></span></span>
+      </div>
+      <div class="tfng-item"><span class="qtext">3. Sylvia Earle was worried about the amount of fish that were being caught.</span>
+        <span class="q" data-q="r2_tfng_3"><select id="r2_tfng_3"><option value="">Chọn...</option><option value="true">TRUE</option><option value="false">FALSE</option><option value="not given">NOT GIVEN</option></select><span class="icon"></span></span>
+      </div>
+      <div class="tfng-item"><span class="qtext">4. Her books offer some solutions to marine problems.</span>
+        <span class="q" data-q="r2_tfng_4"><select id="r2_tfng_4"><option value="">Chọn...</option><option value="true">TRUE</option><option value="false">FALSE</option><option value="not given">NOT GIVEN</option></select><span class="icon"></span></span>
+      </div>
+      <div class="tfng-item"><span class="qtext">5. She thinks people should avoid eating seafood.</span>
+        <span class="q" data-q="r2_tfng_5"><select id="r2_tfng_5"><option value="">Chọn...</option><option value="true">TRUE</option><option value="false">FALSE</option><option value="not given">NOT GIVEN</option></select><span class="icon"></span></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- LISTENING A -->
+  <section class="block" id="sec-la">
+    <div class="block-head">
+      <span class="tag">LISTENING</span>
+      <h2>Note completion — Toby</h2>
+    </div>
+    <span class="track-tag"><span class="dot"></span>Cần file nghe số 05 và 06</span>
+    <div class="not-graded-note">Phần Listening cần nghe file audio nên hệ thống không tự chấm đúng/sai — câu trả lời của em sẽ được gửi cho giáo viên kiểm tra.</div>
+
+    <div class="note-grid">
+      <div class="note-line"><span class="qnum">1</span> First name: <span class="given">Toby</span> &nbsp;Surname: <input type="text" id="ln_surname" autocomplete="off" /></div>
+      <div class="note-line"><span class="qnum">2</span> Address: <input type="text" id="ln_street" placeholder="tên đường" autocomplete="off" /> Street, Wokingham, Berkshire</div>
+      <div class="note-line"><span class="qnum">3</span> Date of birth: 5th April <input type="text" id="ln_dob_year" placeholder="năm" autocomplete="off" /></div>
+      <div class="note-line"><span class="qnum">4</span> Telephone: <input type="text" id="ln_phone" autocomplete="off" /></div>
+      <div class="note-line"><span class="qnum">5</span> Occupation: <input type="text" id="ln_occupation" autocomplete="off" /></div>
+      <div class="note-line"><span class="qnum">6</span> Distance from home to workplace: <input type="text" id="ln_distance" autocomplete="off" /></div>
+      <div class="note-line"><span class="qnum">7</span> Method of transport to work: <input type="text" id="ln_transport" autocomplete="off" /></div>
+      <div class="note-line"><span class="qnum">8</span> Free-time activities: cooking, <input type="text" id="ln_freetime" autocomplete="off" />, travel</div>
+    </div>
+
+    <h3 style="font-size:15.5px;margin:18px 0 8px;">Nối câu hỏi A–H với các ghi chú ở trên</h3>
+    <div class="match-grid">
+      <div class="match-line example-line"><span class="letter">A</span> = ví dụ &nbsp;→&nbsp; 4</div>
+      <div class="match-line"><span class="letter">B</span> = <select id="lm_b"><option value="">--</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option></select></div>
+      <div class="match-line"><span class="letter">C</span> = <select id="lm_c"><option value="">--</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option></select></div>
+      <div class="match-line"><span class="letter">D</span> = <select id="lm_d"><option value="">--</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option></select></div>
+      <div class="match-line"><span class="letter">E</span> = <select id="lm_e"><option value="">--</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option></select></div>
+      <div class="match-line"><span class="letter">F</span> = <select id="lm_f"><option value="">--</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option></select></div>
+      <div class="match-line"><span class="letter">G</span> = <select id="lm_g"><option value="">--</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option></select></div>
+      <div class="match-line"><span class="letter">H</span> = <select id="lm_h"><option value="">--</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option></select></div>
+    </div>
+  </section>
+
+  <!-- LISTENING B -->
+  <section class="block" id="sec-lb">
+    <div class="block-head">
+      <span class="tag">LISTENING</span>
+      <h2>Magazine interview</h2>
+    </div>
+    <span class="track-tag"><span class="dot"></span>Cần file nghe số 07</span>
+    <div class="not-graded-note">Phần này cũng cần nghe audio — điền theo những gì em nghe được, giáo viên sẽ kiểm tra sau.</div>
+
+    <div class="note-grid">
+      <div class="note-line"><span class="qnum">1</span> Name: <span class="given">Tom</span> <input type="text" id="lmag_1" placeholder="họ" autocomplete="off" /></div>
+      <div class="note-line"><span class="qnum">2</span> Occupation: <input type="text" id="lmag_2" autocomplete="off" /></div>
+      <div class="note-line"><span class="qnum">3</span> Has written: <input type="text" id="lmag_3" autocomplete="off" /></div>
+      <div class="note-line"><span class="qnum">4</span> Crossed Gobi desert in: <input type="text" id="lmag_4" autocomplete="off" /></div>
+      <div class="note-line"><span class="qnum">5</span> Title of latest book: 'Has Anyone Seen <input type="text" id="lmag_5" autocomplete="off" />?'</div>
+      <div class="note-line"><span class="qnum">6</span> Has won 'Travel Book of <input type="text" id="lmag_6" autocomplete="off" />' award.</div>
+      <div class="note-line"><span class="qnum">7</span> Date of interview: Friday <input type="text" id="lmag_7" autocomplete="off" /></div>
+      <div class="note-line"><span class="qnum">8</span> Contact number: <input type="text" id="lmag_8" autocomplete="off" /> (call to arrange time)</div>
+      <div class="note-line"><span class="qnum">9</span> Place of interview: <input type="text" id="lmag_9" autocomplete="off" />, Summertown</div>
+      <div class="note-line"><span class="qnum">10</span> See his <input type="text" id="lmag_10" autocomplete="off" /> for more information.</div>
+    </div>
+  </section>
+
+  <footer>Làm xong bài, nhớ bấm <b>Nộp bài</b> rồi <b>Sao chép đáp án</b> để gửi cho giáo viên nhé.</footer>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  const answerKey = {
+    r1p1_1:{type:'text', accepted:['britain']},
+    r1p1_2:{type:'text', accepted:['human geography']},
+    r1p1_3:{type:'text', accepted:['teacher']},
+    r1p1_4:{type:'text', accepted:['1400 kilometres','1400 kilometers','1400 km','1400km']},
+    r1p1_5:{type:'text', accepted:['remote']},
+    r1p1_6:{type:'text', accepted:['expedition']},
+    r1p2_7:{type:'text', accepted:['discovered']},
+    r1p2_8:{type:'text', accepted:['married']},
+    r1p2_9:{type:'text', accepted:['three children','3 children']},
+    r1p2_10:{type:'text', accepted:['twelve months','12 months']},
+    r1p2_11:{type:'text', accepted:['tv series','television series','a tv series']},
+    r1p2_12:{type:'text', accepted:['travel','travelling','traveling']},
+    r2_predict:{type:'radio', accepted:['b']},
+    r2_sa_1:{type:'text', accepted:['underwater explorer','an underwater explorer','explorer']},
+    r2_sa_2:{type:'text', accepted:['381 metres','381 meters','381m','381 m']},
+    r2_sa_3:{type:'text', accepted:['pollution']},
+    r2_sa_4:{type:'text', accepted:['fish farms','fish farm']},
+    r2_tfng_1:{type:'select', accepted:['not given']},
+    r2_tfng_2:{type:'select', accepted:['false']},
+    r2_tfng_3:{type:'select', accepted:['true']},
+    r2_tfng_4:{type:'select', accepted:['true']},
+    r2_tfng_5:{type:'select', accepted:['false']}
+  };
+
+  const listeningIds = ['ln_surname','ln_street','ln_dob_year','ln_phone','ln_occupation','ln_distance','ln_transport','ln_freetime','lm_b','lm_c','lm_d','lm_e','lm_f','lm_g','lm_h','lmag_1','lmag_2','lmag_3','lmag_4','lmag_5','lmag_6','lmag_7','lmag_8','lmag_9','lmag_10'];
+
+  let submitted = false;
+
+  function norm(s){
+    return (s || '').toString().toLowerCase()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+      .replace(/[.,]/g,'')
+      .replace(/\s+/g,' ')
+      .trim();
+  }
+
+  function getValue(qid, type){
+    if(type === 'radio'){
+      const el = document.querySelector('input[name="'+qid+'"]:checked');
+      return el ? el.value : '';
+    }
+    const el = document.getElementById(qid);
+    return el ? el.value : '';
+  }
+
+  function showToast(msg){
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(window.__toastTimer);
+    window.__toastTimer = setTimeout(()=>{ t.classList.remove('show'); }, 3200);
+  }
+
+  function grade(){
+    const nameEl = document.getElementById('studentName');
+    const name = nameEl.value.trim();
+    if(!name){
+      showToast('Vui lòng nhập họ và tên trước khi nộp bài.');
+      nameEl.focus();
+      return false;
+    }
+    let correctCount = 0;
+    const total = Object.keys(answerKey).length;
+
+    for(const qid in answerKey){
+      const cfg = answerKey[qid];
+      const raw = getValue(qid, cfg.type);
+      const ok = raw !== '' && cfg.accepted.includes(norm(raw));
+      if(ok) correctCount++;
+
+      if(cfg.type === 'radio'){
+        const wrap = document.querySelector('.mc-wrap[data-q="'+qid+'"]');
+        if(wrap){
+          wrap.classList.remove('ok','bad');
+          wrap.classList.add(ok ? 'ok' : 'bad');
+          wrap.querySelectorAll('label').forEach(l => l.classList.remove('checked'));
+          const checkedInput = wrap.querySelector('input:checked');
+          if(checkedInput) checkedInput.closest('label').classList.add('checked');
+          const row = wrap.querySelector('.icon-row');
+          if(row) row.textContent = ok ? '✓ Đúng' : '✕ Chưa đúng';
+        }
+      } else {
+        const wrap = document.querySelector('.q[data-q="'+qid+'"]');
+        if(wrap){
+          wrap.classList.remove('ok','bad');
+          wrap.classList.add(ok ? 'ok' : 'bad');
+          const icon = wrap.querySelector('.icon');
+          if(icon) icon.textContent = ok ? '✓' : '✕';
+        }
+      }
+    }
+
+    document.getElementById('scoreBadge').textContent = 'Điểm Reading: ' + correctCount + ' / ' + total;
+    document.getElementById('copyBtn').disabled = false;
+    submitted = true;
+    return true;
+  }
+
+  document.getElementById('submitBtn').addEventListener('click', () => {
+    if(grade()){
+      showToast('Đã chấm bài! Kéo xuống xem kết quả từng câu.');
+    }
+  });
+
+  function buildSummary(){
+    const name = document.getElementById('studentName').value.trim() || '(chưa nhập tên)';
+    const lines = [];
+    lines.push('BÀI NỘP - ' + name);
+    lines.push('');
+
+    lines.push('== READING 1: Patrick Malone (Part 1) ==');
+    for(let i=1;i<=6;i++){
+      const v = document.getElementById('r1p1_'+i).value.trim();
+      lines.push(i + '. ' + (v || '—'));
+    }
+    lines.push('');
+
+    lines.push('== READING 1: Patrick Malone (Part 2) ==');
+    for(let i=7;i<=12;i++){
+      const v = document.getElementById('r1p2_'+i).value.trim();
+      lines.push(i + '. ' + (v || '—'));
+    }
+    lines.push('');
+
+    lines.push('== READING 2: Sylvia Earle ==');
+    const predict = document.querySelector('input[name="r2_predict"]:checked');
+    lines.push('Dự đoán nội dung bài: ' + (predict ? predict.value : '—'));
+    for(let i=1;i<=4;i++){
+      const v = document.getElementById('r2_sa_'+i).value.trim();
+      lines.push('Câu hỏi ' + i + ': ' + (v || '—'));
+    }
+    for(let i=1;i<=5;i++){
+      const v = document.getElementById('r2_tfng_'+i).value;
+      lines.push('Câu ' + i + ' (T/F/NG): ' + (v ? v.toUpperCase() : '—'));
+    }
+    lines.push('');
+
+    if(submitted){
+      lines.push(document.getElementById('scoreBadge').textContent);
+      lines.push('');
+    }
+
+    lines.push('== LISTENING (giáo viên chấm thủ công) ==');
+    lines.push('-- Ghi chú về Toby (file nghe 05 & 06) --');
+    lines.push('Surname: ' + (document.getElementById('ln_surname').value.trim() || '—'));
+    lines.push('Street: ' + (document.getElementById('ln_street').value.trim() || '—'));
+    lines.push('DOB year: ' + (document.getElementById('ln_dob_year').value.trim() || '—'));
+    lines.push('Telephone: ' + (document.getElementById('ln_phone').value.trim() || '—'));
+    lines.push('Occupation: ' + (document.getElementById('ln_occupation').value.trim() || '—'));
+    lines.push('Distance: ' + (document.getElementById('ln_distance').value.trim() || '—'));
+    lines.push('Transport: ' + (document.getElementById('ln_transport').value.trim() || '—'));
+    lines.push('Free-time activity: ' + (document.getElementById('ln_freetime').value.trim() || '—'));
+    lines.push('Matching A-H: A=4 (ví dụ), B=' + (document.getElementById('lm_b').value||'—') +
+      ', C=' + (document.getElementById('lm_c').value||'—') +
+      ', D=' + (document.getElementById('lm_d').value||'—') +
+      ', E=' + (document.getElementById('lm_e').value||'—') +
+      ', F=' + (document.getElementById('lm_f').value||'—') +
+      ', G=' + (document.getElementById('lm_g').value||'—') +
+      ', H=' + (document.getElementById('lm_h').value||'—'));
+    lines.push('');
+    lines.push('-- Magazine interview (file nghe 07) --');
+    for(let i=1;i<=10;i++){
+      const v = document.getElementById('lmag_'+i).value.trim();
+      lines.push(i + '. ' + (v || '—'));
+    }
+
+    return lines.join('\n');
+  }
+
+  document.getElementById('copyBtn').addEventListener('click', async () => {
+    const text = buildSummary();
+    try{
+      await navigator.clipboard.writeText(text);
+      showToast('Đã copy đáp án! Dán vào tin nhắn để nộp bài.');
+    }catch(e){
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      try{ document.execCommand('copy'); showToast('Đã copy đáp án! Dán vào tin nhắn để nộp bài.'); }
+      catch(err){ showToast('Không thể tự copy — vui lòng bôi đen và copy thủ công.'); }
+      document.body.removeChild(ta);
+    }
+  });
+</script>
+</body>
+</html>
